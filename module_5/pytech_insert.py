@@ -1,124 +1,113 @@
-""" 
-    Title: pytech_insert.py
-    Author: Professor Krasso
-    Date: 10 July 2020
-    Description: Test program for inserting new documents 
-                 into the students collection 
-"""
+#Written By: Gavin Bernard
+#Date: 1/11/2023
 
-""" import statements """
 from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
 
-# MongoDB connection string 
-url = "mongodb+srv://admin:admin@cluster0.rsnru.mongodb.net/pytech?retryWrites=true&w=majority"
-
-# connect to the MongoDB cluster 
+url = "mongodb+srv://admin:admin@cluster0.pqamvhe.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(url)
-
-# connect pytech database
 db = client.pytech
 
-""" three student documents"""
-# Thorin Oakenshield's data document 
-thorin = {
+alice = {
     "student_id": "1007",
-    "first_name": "Thorin",
-    "last_name": "Oakenshield",
+    "first_name": "Alice",
+    "last_name": "Amora",
     "enrollments": [
         {
-            "term": "Session 2",
-            "gpa": "4.0",
-            "start_date": "July 10, 2020",
-            "end_date": "September 14, 2020",
+            "term": "Summer",
+            "gpa": "3.5",
+            "start_date": "June 5, 2023",
+            "end_date": "August 30, 2023",
             "courses": [
                 {
-                    "course_id": "CSD310",
-                    "description": "Database Development and Use",
-                    "instructor": "Professor Krasso",
-                    "grade": "A+"
+                    "course_id": "CH-115-S1",
+                    "description": "General Chemistry I",
+                    "instructor": "Ms. Echo",
+                    "grade": "95"
                 },
                 {
-                    "course_id": "CSD320",
-                    "description": "Programming with Java",
-                    "instructor": "Professor Krasso",
-                    "grade": "A+"
+                    "course_id": "CH-306-S2",
+                    "description": "Biochemistry",
+                    "instructor": "Mr. Davidson",
+                    "grade": "92"
                 }
             ]
         }
     ]
-
 }
 
-# Bilbo Baggins data document 
-bilbo = {
+bob = {
     "student_id": "1008",
-    "first_name": "Bilbo",
-    "last_name": "Baggins",
+    "first_name": "Bob",
+    "last_name": "Billy",
     "enrollments": [
         {
-            "term": "Session 2",
-            "gpa": "3.52",
-            "start_date": "July 10, 2020",
-            "end_date": "September 14, 2020",
+            "term": "Fall",
+            "gpa": "3.2",
+            "start_date": "August 30, 2023",
+            "end_date": "December 18, 2023",
             "courses": [
                 {
-                    "course_id": "CSD310",
-                    "description": "Database Development and Use",
-                    "instructor": "Professor Krasso",
-                    "grade": "B+"
+                    "course_id": "CJUS-335",
+                    "description": "Crime in America",
+                    "instructor": "Dr. Jones",
+                    "grade": "83"
                 },
                 {
-                    "course_id": "CSD320",
-                    "description": "Programming with Java",
-                    "instructor": "Professor Krasso",
-                    "grade": "A-"
+                    "course_id": "HI-110",
+                    "description": "World History I",
+                    "instructor": "Prof. Thomas",
+                    "grade": "84"
                 }
             ]
         }
     ]
 }
 
-# Frodo Baggins data document
-frodo = {
+charlie = {
     "student_id": "1009",
-    "first_name": "Frodo",
-    "last_name": "Baggins",
+    "first_name": "Charlie",
+    "last_name": "Clinton",
     "enrollments": [
         {
-            "term": "Session 2",
-            "gpa": "1.5",
-            "start_date": "July 10, 2020",
-            "end_date": "September 14, 2020",
+            "term": "Winter",
+            "gpa": "4.0",
+            "start_date": "December 18, 2023",
+            "end_date": "March 15, 2024",
             "courses": [
                 {
-                    "course_id": "CSD310",
-                    "description": "Database Development and Use",
-                    "instructor": "Professor Krasso",
-                    "grade": "C"
+                    "course_id": "AR-204",
+                    "description": "Introduction to Painting",
+                    "instructor": "Dr. Sarah",
+                    "grade": "100"
                 },
                 {
-                    "course_id": "CSD 320",
-                    "description": "Programming with Java",
-                    "instructor": "Professor Krasso",
-                    "grade": "B"
+                    "course_id": "CH-115-S1",
+                    "description": "General Chemistry I",
+                    "instructor": "Ms. Echo",
+                    "grade": "98"
                 }
             ]
         }
     ]
 }
 
-# get the students collection 
+try:
+    client.admin.command('ismaster')
+    print("Success.")
+except ConnectionFailure:
+    print("Server not available.")
+
 students = db.students
 
-# insert statements with output 
 print("\n  -- INSERT STATEMENTS --")
-thorin_student_id = students.insert_one(thorin).inserted_id
-print("  Inserted student record Thorin Oakenshield into the students collection with document_id " + str(thorin_student_id))
+alice_student_id = students.insert_one(alice).inserted_id
+print("  Inserted student record Alice Amora into the students collection with document_id " + str(alice_student_id))
 
-bilbo_student_id = students.insert_one(bilbo).inserted_id
-print("  Inserted student record Bilbo Baggins into the students collection with document_id " + str(bilbo_student_id))
+bob_student_id = students.insert_one(bob).inserted_id
+print("  Inserted student record Bob Billy into the students collection with document_id " + str(bob_student_id))
 
-frodo_student_id = students.insert_one(frodo).inserted_id
-print("  Inserted student record Frodo Baggins into the students collection with document_id " + str(frodo_student_id))
+charlie_student_id = students.insert_one(charlie).inserted_id
+print("  Inserted student record Charlie Clinton into the students collection with document_id " + str(charlie_student_id))
 
 input("\n\n  End of program, press any key to exit... ")
